@@ -1,22 +1,9 @@
-function maxOf() {
-    let max = - Infinity;
-    for (let value of arguments)
-        if (value > max) max = value;
-    return max;
-}
 
 
-function minOf() {
-    let min = Infinity;
-    for (let value of arguments)
-        if (value < min) min = value;
-    return min
-}
-
-function RGB2HSL(r, g, b) {
+export function RGB2HSL(r, g, b) {
     r = r / 255; g = g / 255; b = b / 255;
-    const max = maxOf(r, g, b);
-    const min = minOf(r, g, b);
+    const max = Math.max(r, g, b);
+    const min = Math.min(r, g, b);
     return {
         H: Math.round(getH()),
         S: Math.round(getS() * Math.pow(10, 2)) / Math.pow(10, 2),
@@ -50,6 +37,24 @@ function RGB2HSL(r, g, b) {
     }
 }
 
-function HSL2RGB(H, S, L) {
 
+export function HSL2RGB(h, s, l) {
+    const C = (1 - Math.abs(2 * l - 1)) * s;
+    const X = C * (1 - Math.abs((h / 60) % 2 - 1));
+    const m = l - C / 2;
+
+    let {r, g, b} = function () {
+        if (h >= 0 && h < 60) return {r: C, g: X, b: 0};
+        else if (h >= 60 && h < 120) return {r: X, g: C, b: 0};
+        else if (h >= 120 && h < 180) return {r: 0, g: C, b: X};
+        else if (h >= 180 && h < 240) return {r: 0, g: X, b: C};
+        else if (h >= 240 && h < 300) return {r: X, g: 0, b: C};
+        else if (h >= 300 && h <= 360) return {r: C, g: 0, b: X};
+    }();
+
+    return {
+        R: Math.round((r + m) * 255),
+        G: Math.round((g + m) * 255),
+        B: Math.round((b + m) * 255)
+    }
 }
