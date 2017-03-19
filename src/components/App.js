@@ -4,6 +4,7 @@ import HSLChooser from './HSLChooser';
 import HuePicker from './HuePicker';
 import LightnessPicker from './LightnessPicker';
 import RGBChooser from './RGBChooser';
+import { RGB2HSL, HSL2RGB } from '../lib/colorLib';
 
 
 export default class App extends React.Component {
@@ -24,12 +25,48 @@ export default class App extends React.Component {
 
     setValue(type, value) {
         switch (type) {
-            case 'R': this.setState((prevState, props) => ({R: value})); break;
-            case 'G': this.setState((prevState, props) => ({G: value})); break;
-            case 'B': this.setState((prevState, props) => ({B: value})); break;
-            case 'H': this.setState((prevState, props) => ({H: value})); break;
-            case 'S': this.setState((prevState, props) => ({S: value})); break;
-            case 'L': this.setState((prevState, props) => ({L: value})); break;
+            case 'R': {
+                const {H, S, L} = RGB2HSL(value, this.state.G, this.state.B);
+                this.setState((prevState, props) => ({
+                    R: value, H: H, S: S, L: L
+                }));
+                break;
+            }
+            case 'G': {
+                const {H, S, L} = RGB2HSL(this.state.R, value, this.state.B);
+                this.setState((prevState, props) => ({
+                    G: value, H: H, S: S, L: L
+                }));
+                break;
+            }
+            case 'B': {
+                const {H, S, L} = RGB2HSL(this.state.R, this.state.G, value);
+                this.setState((prevState, props) => ({
+                    B: value, H: H, S: S, L: L
+                }));
+                break;
+            }
+            case 'H': {
+                const {R, G, B} = HSL2RGB(value, this.state.S, this.state.L);
+                this.setState((prevState, props) => ({
+                    H: value, R: R, G: G, B: B
+                }));
+                break;
+            }
+            case 'S': {
+                const {R, G, B} = HSL2RGB(this.state.H, value, this.state.L);
+                this.setState((prevState, props) => ({
+                    S: value, R: R, G: G, B: B
+                }));
+                break;
+            }
+            case 'L': {
+                const {R, G, B} = HSL2RGB(this.state.H, this.state.S, value);
+                this.setState((prevState, props) => ({
+                    L: value, R: R, G: G, B: B
+                }));
+                break;
+            }
             default: return;
         }
     }
