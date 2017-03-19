@@ -49,3 +49,7 @@ function RGB2HSL(r, g, b) {
             return (max - min) / (2 - (max + min));
     }
 }
+
+function HSL2RGB(H, S, L) {
+
+}
