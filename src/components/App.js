@@ -17,7 +17,7 @@ export default class App extends React.Component {
             R: 0,
             G: 0,
             B: 0,
-            H: 0,
+            H: 360,
             S: 0,
             L: 0
         }
@@ -73,7 +73,9 @@ export default class App extends React.Component {
 
     render() {return(
         <div style={this.style.container}>
-            <LightnessPicker/>
+            <LightnessPicker
+                H={this.state.H}
+            />
             <HuePicker setValue={this.setValue.bind(null, 'H')}/>
             <div style={this.style.chooser}>
                 <RGBChooser

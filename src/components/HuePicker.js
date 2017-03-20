@@ -44,9 +44,13 @@ export default class HuePicker extends React.Component {
     }
 
     handleMouseMove(event) {
+        const top = event.clientY - this.state.containerOffsetTop - 10;
         this.setState((prevState, props) => ({
-            top: event.clientY - this.state.containerOffsetTop - 10
+            top: top
         }));
+        this.props.setValue(
+            Math.round((top + 10) / this.state.containerHeight * 360)
+        )
     }
 
 
