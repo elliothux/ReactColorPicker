@@ -30,7 +30,7 @@ export default class HuePicker extends React.Component {
         this.setState((prevState, props) => ({
             max: this.refs.container.offsetHeight - 10,
             top: this.refs.container.offsetHeight - 10,
-            containerOffsetTop: this.refs.container.offsetTop,
+            containerOffsetTop: this.refs.container.getBoundingClientRect().top,
             containerHeight: this.refs.container.offsetHeight
         }))
     }

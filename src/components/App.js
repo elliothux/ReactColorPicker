@@ -75,6 +75,8 @@ export default class App extends React.Component {
         <div style={this.style.container}>
             <LightnessPicker
                 H={this.state.H}
+                setS={this.setValue.bind(null, 'S')}
+                setL={this.setValue.bind(null, 'L')}
             />
             <HuePicker setValue={this.setValue.bind(null, 'H')}/>
             <div style={this.style.chooser}>
