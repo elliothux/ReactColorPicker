@@ -74,7 +74,7 @@ export default class App extends React.Component {
     render() {return(
         <div style={this.style.container}>
             <LightnessPicker/>
-            <HuePicker/>
+            <HuePicker setValue={this.setValue.bind(null, 'H')}/>
             <div style={this.style.chooser}>
                 <RGBChooser
                     R={this.state.R}
@@ -102,7 +102,8 @@ export default class App extends React.Component {
                 flexDirection: 'row',
                 flexFlow: 'row',
                 justifyContent: 'space-between',
-                margin: '50px '
+                margin: '50px ',
+                userSelect: 'none'
             },
             chooser: {
                 height: '100%',
