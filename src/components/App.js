@@ -14,12 +14,12 @@ export default class App extends React.Component {
         this.setValue = this.setValue.bind(this);
 
         this.state = {
-            R: 0,
-            G: 0,
-            B: 0,
+            R: 255,
+            G: 255,
+            B: 255,
             H: 360,
             S: 0,
-            L: 0
+            L: 1
         }
     }
 
@@ -75,10 +75,15 @@ export default class App extends React.Component {
         <div style={this.style.container}>
             <LightnessPicker
                 H={this.state.H}
+                S={this.state.S}
+                L={this.state.L}
                 setS={this.setValue.bind(null, 'S')}
                 setL={this.setValue.bind(null, 'L')}
             />
-            <HuePicker setValue={this.setValue.bind(null, 'H')}/>
+            <HuePicker
+                H={this.state.H}
+                setValue={this.setValue.bind(null, 'H')}
+            />
             <div style={this.style.chooser}>
                 <RGBChooser
                     R={this.state.R}

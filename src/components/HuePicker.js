@@ -11,9 +11,9 @@ export default class HuePicker extends React.Component {
         this.handleMouseDown = this.handleMouseDown.bind(this);
         this.handleMouseUp = this.handleMouseUp.bind(this);
         this.handleMouseMove = this.handleMouseMove.bind(this);
+        this.handleClick = this.handleClick.bind(this);
 
         this.state = {
-            top: -10,
             min: -10,
             max: 0,
             containerOffsetTop: 0,
@@ -29,7 +29,6 @@ export default class HuePicker extends React.Component {
     getStaticValues() {
         this.setState((prevState, props) => ({
             max: this.refs.container.offsetHeight - 10,
-            top: this.refs.container.offsetHeight - 10,
             containerOffsetTop: this.refs.container.getBoundingClientRect().top,
             containerHeight: this.refs.container.offsetHeight
         }))
@@ -44,12 +43,18 @@ export default class HuePicker extends React.Component {
     }
 
     handleMouseMove(event) {
-        const top = event.clientY - this.state.containerOffsetTop - 10;
-        this.setState((prevState, props) => ({
-            top: top
-        }));
         this.props.setValue(
-            Math.round((top + 10) / this.state.containerHeight * 360)
+            Math.round((event.clientY - this.state.containerOffsetTop) / this.state.containerHeight * 360)
+        )
+    }
+
+    handleClick(event) {
+        this.refs.picker.style.transition = 'all ease-out 300ms';
+        setTimeout(function () {
+            this.refs.picker.style.transition = '';
+        }.bind(this), 300);
+        this.props.setValue(
+            Math.round((event.clientY - this.state.containerOffsetTop) / this.state.containerHeight * 360)
         )
     }
 
@@ -59,6 +64,7 @@ export default class HuePicker extends React.Component {
             ref="container"
             style={this.style().container}
             onMouseDown={this.handleMouseDown}
+            onClick={this.handleClick}
         >
             <div
                 ref="picker"
@@ -82,17 +88,18 @@ export default class HuePicker extends React.Component {
             picker: {
                 position: 'relative',
                 top: `${function () {
-                    if (this.state.top > this.state.max)
+                    const top = this.props.H / 360 * this.state.containerHeight - 10;
+                    if (top > this.state.max)
                         return this.state.max;
-                    if (this.state.top < this.state.min)
+                    if (top < this.state.min)
                         return this.state.min;
-                    return this.state.top;
+                    return top;
                 }.bind(this)()}px`,
                 left: '-20px',
                 borderStyle: 'solid',
                 borderWidth: '10px 0 10px 15px',
                 borderColor: `transparent transparent transparent 
-                    hsl(${(this.state.top + 10) / this.state.containerHeight * 360}, 100%, 50%)`
+                    hsl(${this.props.H}, 100%, 50%)`
             }
         }
     }))}
