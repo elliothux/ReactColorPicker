@@ -1,6 +1,7 @@
+// The hue value picker.
+
 import React from 'react';
 import reactCSS from 'reactcss';
-import { debounce } from '../lib/colorLib';
 
 
 export default class HuePicker extends React.Component {
@@ -23,9 +24,9 @@ export default class HuePicker extends React.Component {
 
     componentDidMount() {
         this.getStaticValues();
-        document.addEventListener('mouseup', this.handleMouseUp);
     }
 
+    // Get some useful values from DOM after render.
     getStaticValues() {
         this.setState((prevState, props) => ({
             max: this.refs.container.offsetHeight - 10,
@@ -34,20 +35,24 @@ export default class HuePicker extends React.Component {
         }))
     }
 
+    // Start monitoring the mousemove event of container after mousedown event.
     handleMouseDown(e) {
         this.refs.container.addEventListener('mousemove', this.handleMouseMove);
     }
 
+    // Stop monitoring the mousemove event of container after mouseup event
     handleMouseUp() {
         this.refs.container.removeEventListener('mousemove', this.handleMouseMove);
     }
 
+    // Move mouse to set value
     handleMouseMove(event) {
         this.props.setValue(
             Math.round((event.clientY - this.state.containerOffsetTop) / this.state.containerHeight * 360)
         )
     }
 
+    // Click to set value
     handleClick(event) {
         this.refs.picker.style.transition = 'all ease-out 300ms';
         setTimeout(function () {
@@ -64,6 +69,7 @@ export default class HuePicker extends React.Component {
             ref="container"
             style={this.style().container}
             onMouseDown={this.handleMouseDown}
+            onMouseUp={this.handleMouseUp}
             onClick={this.handleClick}
         >
             <div
@@ -88,6 +94,7 @@ export default class HuePicker extends React.Component {
             picker: {
                 position: 'relative',
                 top: `${function () {
+                    // Check the value is invalid or not
                     const top = this.props.H / 360 * this.state.containerHeight - 10;
                     if (top > this.state.max)
                         return this.state.max;

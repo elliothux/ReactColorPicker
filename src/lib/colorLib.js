@@ -1,5 +1,7 @@
+// Basic function to convert color values
 
 
+// Convert RGB to HSL
 export function RGB2HSL(r, g, b) {
     r = r / 255; g = g / 255; b = b / 255;
     const max = Math.max(r, g, b);
@@ -38,6 +40,7 @@ export function RGB2HSL(r, g, b) {
 }
 
 
+// Convert HSL to RGB
 export function HSL2RGB(h, s, l) {
     const C = (1 - Math.abs(2 * l - 1)) * s;
     const X = C * (1 - Math.abs((h / 60) % 2 - 1));
@@ -57,4 +60,10 @@ export function HSL2RGB(h, s, l) {
         G: Math.round((g + m) * 255),
         B: Math.round((b + m) * 255)
     }
+}
+
+
+// Convert RGB to HEX
+export function RGB2HEX(r, g, b) {
+    return `#${r.toString(16)}${g.toString(16)}${b.toString(16)}`;
 }

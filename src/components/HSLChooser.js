@@ -1,3 +1,5 @@
+// The input boxes of HSL values.
+
 import React from 'react';
 import reactCSS from 'reactcss';
 import NumChooser from './NumChooser';
@@ -6,11 +8,11 @@ import NumChooser from './NumChooser';
 export default class HSLChooser extends React.Component {
     constructor(props) {
         super(props);
-        this.style = this.style.bind(this)();
+        this.style = this.style.bind(this);
     }
 
     render() {return(
-        <div style={this.style.container}>
+        <div style={this.style().container}>
             <NumChooser
                 text="H"
                 min={0}

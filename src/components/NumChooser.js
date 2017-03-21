@@ -9,6 +9,12 @@ export default class NumChooser extends React.Component {
         this.plusValue = this.plusValue.bind(this);
         this.minusValue = this.minusValue.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.handleMouseDown = this.handleMouseDown.bind(this);
+        this.handleMouseUp = this.handleMouseUp.bind(this);
+
+        this.state = {
+            timer: null
+        }
     }
 
     plusValue() {
@@ -53,6 +59,18 @@ export default class NumChooser extends React.Component {
         this.props.getValue(value);
     }
 
+    handleMouseDown(operation) {
+        clearInterval(this.state.timer);
+        const timer = setInterval(operation === 'plus' ? this.plusValue : this.minusValue, 100);
+        this.setState((prevState, props) => ({
+            timer: timer
+        }))
+    }
+
+    handleMouseUp() {
+        clearInterval(this.state.timer);
+    }
+
     render() {return(
         <div style={this.style.container}>
             <span style={this.style.text}>{this.props.text}</span>
@@ -63,10 +81,20 @@ export default class NumChooser extends React.Component {
                     style={this.style.input}
                 />
                 <div style={this.style.controller}>
-                    <div style={this.style.button} onClick={this.plusValue}>
+                    <div
+                        style={this.style.button}
+                        onClick={this.plusValue}
+                        onMouseDown={this.handleMouseDown.bind(null, 'plus')}
+                        onMouseUp={this.handleMouseUp}
+                    >
                         <div style={this.style.numUp}/>
                     </div>
-                    <div style={this.style.button} onClick={this.minusValue}>
+                    <div
+                        style={this.style.button}
+                        onClick={this.minusValue}
+                        onMouseDown={this.handleMouseDown.bind(null, 'minus')}
+                        onMouseUp={this.handleMouseUp}
+                    >
                         <div style={this.style.numDown}/>
                     </div>
                 </div>

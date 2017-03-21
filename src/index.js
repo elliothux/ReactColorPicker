@@ -1,9 +1,13 @@
 import React from 'react';
 import { render } from 'react-dom';
-import App from './components/App';
+import Picker from './components/App';
 
 
 render(
-    <App/>,
+    <Picker getValue={setValue}/>,
     document.querySelector('#root')
 );
+
+function setValue(value) {
+    console.log(value);
+}

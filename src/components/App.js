@@ -1,10 +1,12 @@
+// Main component
+
 import React from 'react';
 import reactCSS from 'reactcss';
 import HSLChooser from './HSLChooser';
+import RGBChooser from './RGBChooser';
 import HuePicker from './HuePicker';
 import LightnessPicker from './LightnessPicker';
-import RGBChooser from './RGBChooser';
-import { RGB2HSL, HSL2RGB } from '../lib/colorLib';
+import { RGB2HSL, HSL2RGB, RGB2HEX } from '../lib/colorLib';
 
 
 export default class App extends React.Component {
@@ -14,56 +16,69 @@ export default class App extends React.Component {
         this.setValue = this.setValue.bind(this);
 
         this.state = {
-            R: 255,
-            G: 255,
-            B: 255,
+            R: 191,
+            G: 64,
+            B: 66,
             H: 360,
             S: 0.5,
-            L: 0.5
+            L: 0.5,
+            HEX: '#BF4042'
         }
     }
 
+    // Execute this hook method after color value changed.
+    componentDidUpdate() {
+        this.props.getValue && this.props.getValue(this.state);
+    }
+
+    // Passing an value and this value's type to set value
     setValue(type, value) {
         switch (type) {
             case 'R': {
                 const {H, S, L} = RGB2HSL(value, this.state.G, this.state.B);
                 this.setState((prevState, props) => ({
-                    R: value, H: H, S: S, L: L
+                    R: value, H: H, S: S, L: L,
+                    HEX: RGB2HEX(value, this.state.G, this.state.B)
                 }));
                 break;
             }
             case 'G': {
                 const {H, S, L} = RGB2HSL(this.state.R, value, this.state.B);
                 this.setState((prevState, props) => ({
-                    G: value, H: H, S: S, L: L
+                    G: value, H: H, S: S, L: L,
+                    HEX: RGB2HEX(this.state.R, value, this.state.B)
                 }));
                 break;
             }
             case 'B': {
                 const {H, S, L} = RGB2HSL(this.state.R, this.state.G, value);
                 this.setState((prevState, props) => ({
-                    B: value, H: H, S: S, L: L
+                    B: value, H: H, S: S, L: L,
+                    HEX: RGB2HEX(this.state.R, this.state.G, value)
                 }));
                 break;
             }
             case 'H': {
                 const {R, G, B} = HSL2RGB(value, this.state.S, this.state.L);
                 this.setState((prevState, props) => ({
-                    H: value, R: R, G: G, B: B
+                    H: value, R: R, G: G, B: B,
+                    HEX: RGB2HEX(R, G, B)
                 }));
                 break;
             }
             case 'S': {
                 const {R, G, B} = HSL2RGB(this.state.H, value, this.state.L);
                 this.setState((prevState, props) => ({
-                    S: value, R: R, G: G, B: B
+                    S: value, R: R, G: G, B: B,
+                    HEX: RGB2HEX(R, G, B)
                 }));
                 break;
             }
             case 'L': {
                 const {R, G, B} = HSL2RGB(this.state.H, this.state.S, value);
                 this.setState((prevState, props) => ({
-                    L: value, R: R, G: G, B: B
+                    L: value, R: R, G: G, B: B,
+                    HEX: RGB2HEX(R, G, B)
                 }));
                 break;
             }
@@ -105,8 +120,8 @@ export default class App extends React.Component {
     style() {return(reactCSS({
         default: {
             container: {
-                width: '500px',
-                height: '250px',
+                width: `${this.props.width || '500px'}`,
+                height: `${this.props.width / 2 || '250px'}`,
                 display: 'flex',
                 flexDirection: 'row',
                 flexFlow: 'row',

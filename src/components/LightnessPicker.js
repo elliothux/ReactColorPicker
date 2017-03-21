@@ -1,3 +1,5 @@
+// The saturation and lightness values picker.
+
 import React from 'react';
 import reactCSS from 'reactcss';
 
@@ -13,7 +15,6 @@ export default class LightnessPicker extends React.Component {
         this.handleClick = this.handleClick.bind(this);
 
         this.state = {
-            linearGradient: `hsl(${this.props.H}, 0%, 100%), hsl(${this.props.H}, 50%, 50%), hsl(${this.props.H}, 100%, 0%)`,
             min: -8,
             max: 0,
             containerOffsetTop: 0,
@@ -22,18 +23,8 @@ export default class LightnessPicker extends React.Component {
         }
     }
 
-    componentDidUpdate() {
-        if (this.state.linearGradient ===
-            `hsl(${this.props.H}, 0%, 100%), hsl(${this.props.H}, 50%, 50%), hsl(${this.props.H}, 100%, 0%)`)
-            return;
-        this.setState({
-            linearGradient: `hsl(${this.props.H}, 0%, 100%), hsl(${this.props.H}, 50%, 50%), hsl(${this.props.H}, 100%, 0%)`
-        });
-    }
-
     componentDidMount() {
         this.getStaticValues();
-        document.addEventListener('mouseup', this.handleMouseUp);
     }
 
     getStaticValues() {
@@ -88,6 +79,7 @@ export default class LightnessPicker extends React.Component {
             ref="container"
             style={this.style().container}
             onMouseDown={this.handleMouseDown}
+            onMouseUp={this.handleMouseUp}
             onClick={this.handleClick}
         >
             <div
@@ -101,9 +93,9 @@ export default class LightnessPicker extends React.Component {
         default: {
             container: {
                 width: '50%',
-                height: 0,
-                paddingBottom: '50%',
-                backgroundImage: `linear-gradient(to right bottom, ${this.state.linearGradient})`,
+                height: '100%',
+                backgroundImage: `linear-gradient(to right bottom, 
+                    ${`hsl(${this.props.H}, 0%, 100%), hsl(${this.props.H}, 50%, 50%), hsl(${this.props.H}, 100%, 0%)`})`,
                 cursor: 'pointer',
             },
             picker: {
