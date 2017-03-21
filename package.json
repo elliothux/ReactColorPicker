@@ -1,5 +1,5 @@
 {
-  "name": "colorPicker",
+  "name": "reactColorPicker",
   "version": "0.0.1",
   "description": "A color picker",
   "main": "index.js",
