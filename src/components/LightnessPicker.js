@@ -14,7 +14,7 @@ export default class LightnessPicker extends React.Component {
 
         this.state = {
             linearGradient: `hsl(${this.props.H}, 0%, 100%), hsl(${this.props.H}, 50%, 50%), hsl(${this.props.H}, 100%, 0%)`,
-            min: -5,
+            min: -8,
             max: 0,
             containerOffsetTop: 0,
             containerOffsetLeft: 0,
@@ -38,7 +38,7 @@ export default class LightnessPicker extends React.Component {
 
     getStaticValues() {
         this.setState((prevState, props) => ({
-            max: this.refs.container.offsetHeight - 5,
+            max: this.refs.container.offsetHeight - 8,
             containerOffsetTop: this.refs.container.getBoundingClientRect().top,
             containerOffsetLeft: this.refs.container.getBoundingClientRect().left,
             containerHeight: this.refs.container.offsetHeight,
@@ -54,8 +54,8 @@ export default class LightnessPicker extends React.Component {
     }
 
     handleMouseMove(event) {
-        let s = (event.clientX - this.state.containerOffsetLeft - 5) / this.state.containerHeight;
-        let l = 1 - (event.clientY - this.state.containerOffsetTop - 5) / this.state.containerHeight;
+        let s = (event.clientX - this.state.containerOffsetLeft) / this.state.containerHeight;
+        let l = 1 - (event.clientY - this.state.containerOffsetTop) / this.state.containerHeight;
         s = Math.round(s * 100) / 100;
         l = Math.round(l * 100) / 100;
         this.props.setS(
@@ -71,8 +71,8 @@ export default class LightnessPicker extends React.Component {
         setTimeout(function () {
             this.refs.picker.style.transition = '';
         }.bind(this), 300);
-        let s = (event.clientX - this.state.containerOffsetLeft - 5) / this.state.containerHeight;
-        let l = 1 - (event.clientY - this.state.containerOffsetTop - 5) / this.state.containerHeight;
+        let s = (event.clientX - this.state.containerOffsetLeft) / this.state.containerHeight;
+        let l = 1 - (event.clientY - this.state.containerOffsetTop) / this.state.containerHeight;
         s = Math.round(s * 100) / 100;
         l = Math.round(l * 100) / 100;
         this.props.setS(
@@ -107,13 +107,13 @@ export default class LightnessPicker extends React.Component {
                 cursor: 'pointer',
             },
             picker: {
-                width: '10px',
-                height: '10px',
+                width: '16px',
+                height: '16px',
                 borderRadius: '100%',
-                boxShadow: ' 0 0 0 3px black, 0 0 0 6px white',
+                boxShadow: ' 0 0 0 3px white',
                 position: 'relative',
                 left: `${function () {
-                    const left = this.props.S * this.state.containerHeight;
+                    const left = this.props.S * this.state.containerHeight - 8;
                     if (left > this.state.max)
                         return this.state.max;
                     if (left < this.state.min)
@@ -121,7 +121,7 @@ export default class LightnessPicker extends React.Component {
                     return left;
                 }.bind(this)()}px`,
                 top: `${function () {
-                    const top = (1 - this.props.L) * this.state.containerHeight;
+                    const top = (1 - this.props.L) * this.state.containerHeight - 8;
                     if (top > this.state.max)
                         return this.state.max;
                     if (top < this.state.min)

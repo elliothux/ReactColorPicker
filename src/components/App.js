@@ -18,8 +18,8 @@ export default class App extends React.Component {
             G: 255,
             B: 255,
             H: 360,
-            S: 0,
-            L: 1
+            S: 0.5,
+            L: 0.5
         }
     }
 
