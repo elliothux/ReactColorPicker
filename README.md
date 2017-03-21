@@ -2,11 +2,11 @@
 ## A light and simple color picker for react.
 
 ## Installation
-`npm install reactColorPicker --save`
+`npm install reactcolorpicker --save`
 
 or
 
-`yarn add reactColorPicker`
+`yarn add reactcolorpicker`
 
 ## Usage
 ```js
