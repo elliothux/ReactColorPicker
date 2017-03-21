@@ -37,7 +37,7 @@ class MyComponent extends React.Component {
             <h2 style={{color: this.state.HEX}}>
                 Please pick your color:
             </h2>
-            <Picker/>
+            <Picker getValue={this.setColor}/>
         </div>
     )}
 }
