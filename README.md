@@ -3,7 +3,9 @@
 
 ## Installation
 `npm install reactColorPicker --save`
+
 or
+
 `yarn add reactColorPicker`
 
 ## Usage
