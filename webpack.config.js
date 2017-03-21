@@ -2,11 +2,12 @@ const path = require('path');
 
 module.exports = {
     entry: {
-        index: path.resolve(__dirname, './src/index.js')
+        index: path.resolve(__dirname, './src/index.js'),
+        test: path.resolve(__dirname, './test/test.js')
     },
     output: {
-        path: path.resolve(__dirname, './dist'),
-        filename: '[name].build.js',
+        path: path.resolve(__dirname),
+        filename: '[name].js',
         publicPath: '/assets/'
     },
     module: {
