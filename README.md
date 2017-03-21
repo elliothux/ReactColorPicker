@@ -9,7 +9,7 @@ or
 ## Usage
 ```js
 import React from 'react';
-import Picker from 'reactColorPicker';
+import Picker from 'reactcolorpicker';
 
 class MyComponent extends React.Component {
     constructor(props) {

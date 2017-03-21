@@ -1,6 +1,6 @@
 {
   "name": "reactcolorpicker",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "description": "A light and simple color picker for react",
   "main": "index.js",
   "author": "https://github.com/HuQingyang",

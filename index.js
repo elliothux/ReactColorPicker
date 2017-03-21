@@ -1,2 +1,2 @@
-import Picker from './components/App';
+import Picker from './components/ColorPicker';
 export default Picker;
