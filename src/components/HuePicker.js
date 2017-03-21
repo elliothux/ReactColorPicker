@@ -1,4 +1,4 @@
-// The hue value picker.
+// The hue value picker component
 
 import React from 'react';
 import reactCSS from 'reactcss';
@@ -24,6 +24,7 @@ export default class HuePicker extends React.Component {
 
     componentDidMount() {
         this.getStaticValues();
+        window.addEventListener('resize', this.getStaticValues);
     }
 
     // Get some useful values from DOM after render.

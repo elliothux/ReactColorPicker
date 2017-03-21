@@ -1,4 +1,4 @@
-// The input boxes of HSL values.
+// The input boxes of HSL values component
 
 import React from 'react';
 import reactCSS from 'reactcss';

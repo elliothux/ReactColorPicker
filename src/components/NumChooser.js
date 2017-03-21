@@ -1,3 +1,5 @@
+// The number input box component
+
 import React from 'react';
 import reactCSS from 'reactcss';
 
@@ -17,48 +19,66 @@ export default class NumChooser extends React.Component {
         }
     }
 
+    // Plus the value
     plusValue() {
         let value = this.props.value;
-        if (!this.props.onlyInteger) {
-            value = parseInt(value  * 10e5 * 100) / 10e5 + parseInt(this.props.scale * 100);
-            value = value / 100;
-        } else
+        // If only integers are allowed here
+        if (!this.props.onlyInteger)
+            // Change and format the value
+            value = (parseInt(value  * 10e5 * 100) / 10e5 +
+                parseInt(this.props.scale * 100)) / 100;
+        else
             value += this.props.scale;
         value >= this.props.max && (value = this.props.max);
         this.props.getValue(value);
     }
 
+    // Minus the value
     minusValue() {
         let value = this.props.value;
-        if (!this.props.onlyInteger) {
-            value = parseInt(value  * 10e5 * 100) / 10e5 - parseInt(this.props.scale * 100);
-            value = value / 100;
-        } else
+        // If only integers are allowed here
+        if (!this.props.onlyInteger)
+            // Change and format the value
+            value = (parseInt(value  * 10e5 * 100) / 10e5 -
+                parseInt(this.props.scale * 100)) / 100;
+        else
             value -= this.props.scale;
+        // Check the value is invalid or not
         value <= this.props.min && (value = this.props.min);
         this.props.getValue(value);
     }
 
+    // Handle change after user inputting something in the input box
     handleChange(e) {
         let value = e.target.value;
+        // Avoid the situation of 'NaN' value
         value === '' && (value = '0');
+        // If only integers are allowed here
         if (!this.props.onlyInteger) {
+            // And if user's input is not point
+            // then format the number
             if (value.split('')[value.length-1] !== '.') {
+                // Divided the value into integer and decimal
+                // and process them respectively
                 const integer = value.split('.')[0];
                 let decimal = value.split('.').length > 1 ?
                     value.split('.')[1] : null;
+                // The decimal part does not exceed two digits
                 (decimal && decimal.length >= 2) &&
-                (decimal = decimal.slice(0, 2));
+                    (decimal = decimal.slice(0, 2));
                 value = `${integer}${decimal ? `.${decimal}` : ''}`;
                 value = parseFloat(value);
             }
         } else
             value = parseInt(value);
 
+        // Check the value is invalid or not
         parseFloat(value) >= this.props.max && (value = this.props.max);
         this.props.getValue(value);
     }
 
+    // After mousedown event of the controller button
+    // plus or minus the value every 100ms
     handleMouseDown(operation) {
         clearInterval(this.state.timer);
         const timer = setInterval(operation === 'plus' ? this.plusValue : this.minusValue, 100);
@@ -67,6 +87,8 @@ export default class NumChooser extends React.Component {
         }))
     }
 
+    // After mouseup event of the controller button
+    // stop the operation
     handleMouseUp() {
         clearInterval(this.state.timer);
     }

@@ -1,3 +1,5 @@
+// The input boxes of RGB values component
+
 import React from 'react';
 import reactCSS from 'reactcss';
 import NumChooser from './NumChooser';

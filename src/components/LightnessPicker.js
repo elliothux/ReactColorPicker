@@ -1,4 +1,4 @@
-// The saturation and lightness values picker.
+// The saturation and lightness values picker component
 
 import React from 'react';
 import reactCSS from 'reactcss';
@@ -25,8 +25,10 @@ export default class LightnessPicker extends React.Component {
 
     componentDidMount() {
         this.getStaticValues();
+        window.addEventListener('resize', this.getStaticValues);
     }
 
+    // Get some useful values from DOM after render.
     getStaticValues() {
         this.setState((prevState, props) => ({
             max: this.refs.container.offsetHeight - 8,
@@ -36,14 +38,17 @@ export default class LightnessPicker extends React.Component {
         }))
     }
 
+    // Start monitoring the mousemove event of container after mousedown event.
     handleMouseDown(e) {
         this.refs.container.addEventListener('mousemove', this.handleMouseMove);
     }
 
+    // Stop monitoring the mousemove event of container after mouseup event
     handleMouseUp() {
         this.refs.container.removeEventListener('mousemove', this.handleMouseMove);
     }
 
+    // Move mouse to set value
     handleMouseMove(event) {
         let s = (event.clientX - this.state.containerOffsetLeft) / this.state.containerHeight;
         let l = 1 - (event.clientY - this.state.containerOffsetTop) / this.state.containerHeight;
@@ -57,6 +62,7 @@ export default class LightnessPicker extends React.Component {
         )
     }
 
+    // Click to set value
     handleClick(event) {
         this.refs.picker.style.transition = 'all ease-out 300ms';
         setTimeout(function () {
@@ -105,6 +111,7 @@ export default class LightnessPicker extends React.Component {
                 boxShadow: ' 0 0 0 3px white',
                 position: 'relative',
                 left: `${function () {
+                    // Check the value is invalid or not
                     const left = this.props.S * this.state.containerHeight - 8;
                     if (left > this.state.max)
                         return this.state.max;
@@ -113,6 +120,7 @@ export default class LightnessPicker extends React.Component {
                     return left;
                 }.bind(this)()}px`,
                 top: `${function () {
+                    // Check the value is invalid or not
                     const top = (1 - this.props.L) * this.state.containerHeight - 8;
                     if (top > this.state.max)
                         return this.state.max;
